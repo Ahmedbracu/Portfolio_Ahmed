@@ -30,7 +30,18 @@ function AppContent() {
   );
 }
 
+import { useState } from 'react';
+import { Loader } from '@/components/Loader';
+
+// ... (existing imports)
+
 function App() {
+  const [loading, setLoading] = useState(true);
+
+  if (loading) {
+    return <Loader onComplete={() => setLoading(false)} />;
+  }
+
   return (
     <PortfolioProvider>
       <AppContent />
