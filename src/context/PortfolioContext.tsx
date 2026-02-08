@@ -269,11 +269,27 @@ export function PortfolioProvider({ children }: { children: ReactNode }) {
 
   const updateSocialLink = useCallback(async (platform: string, updates: Partial<SocialLink>) => {
     setCurrentProfile(prev => {
+      const existingLinkIndex = prev.socialLinks.findIndex(link => link.platform === platform);
+      let newSocialLinks;
+
+      if (existingLinkIndex >= 0) {
+        // Update existing
+        newSocialLinks = prev.socialLinks.map((link, index) =>
+          index === existingLinkIndex ? { ...link, ...updates } : link
+        );
+      } else {
+        // Add new (Upsert)
+        // We need 'icon' and 'url' to be present if adding new, or at least 'url'
+        newSocialLinks = [...prev.socialLinks, {
+          platform,
+          url: updates.url || '',
+          icon: updates.icon || 'link'
+        }];
+      }
+
       const newProfile = {
         ...prev,
-        socialLinks: prev.socialLinks.map(link =>
-          link.platform === platform ? { ...link, ...updates } : link
-        ),
+        socialLinks: newSocialLinks,
       };
 
       if (isSupabaseConfigured) {

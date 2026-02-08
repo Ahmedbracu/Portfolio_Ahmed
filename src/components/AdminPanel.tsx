@@ -1353,12 +1353,48 @@ function ProjectsEditor() {
 }
 
 // Social Links Editor
+const ALL_SOCIAL_PLATFORMS = [
+  // Tech
+  { platform: "GitHub", icon: "github" },
+  { platform: "LinkedIn", icon: "linkedin" },
+  { platform: "GitLab", icon: "gitlab" },
+  { platform: "StackOverflow", icon: "layers" },
+  { platform: "CodePen", icon: "codepen" },
+  { platform: "Dev.to", icon: "code" },
+
+  // Design
+  { platform: "Behance", icon: "image" },
+  { platform: "Dribbble", icon: "dribbble" },
+  { platform: "Pinterest", icon: "pin" },
+  { platform: "Instagram", icon: "instagram" },
+
+  // Social
+  { platform: "Facebook", icon: "facebook" },
+  { platform: "Twitter", icon: "twitter" },
+  { platform: "YouTube", icon: "youtube" },
+  { platform: "TikTok", icon: "video" },
+  { platform: "Snapchat", icon: "ghost" },
+  { platform: "Reddit", icon: "message-circle" },
+  { platform: "Discord", icon: "gamepad-2" },
+  { platform: "WhatsApp", icon: "phone" },
+  { platform: "Telegram", icon: "send" },
+
+  // Content/Other
+  { platform: "Medium", icon: "book-open" },
+  { platform: "Twitch", icon: "twitch" },
+  { platform: "Spotify", icon: "music" },
+  { platform: "Soundcloud", icon: "cloud-lightning" },
+  { platform: "Vimeo", icon: "video" },
+  { platform: "Website", icon: "globe" },
+  { platform: "Email", icon: "mail" }
+];
+
 function SocialLinksEditor() {
   const { profile, updateSocialLink } = usePortfolio();
   const [editing, setEditing] = useState<string | null>(null);
 
-  const handleSave = (platform: string, url: string) => {
-    updateSocialLink(platform, { url });
+  const handleSave = (platform: string, url: string, icon: string) => {
+    updateSocialLink(platform, { url, icon, platform });
     setEditing(null);
     toast.success(`${platform} link updated successfully!`);
   };
@@ -1398,32 +1434,35 @@ function SocialLinksEditor() {
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2">
-        {profile.socialLinks.map((link) => {
-          const Icon = iconMap[link.icon] || LinkIcon;
+        {ALL_SOCIAL_PLATFORMS.map((platformDef) => {
+          const Icon = iconMap[platformDef.icon] || LinkIcon;
+          const existingLink = profile.socialLinks.find(l => l.platform === platformDef.platform);
+          const currentUrl = existingLink?.url || '';
+
           return (
             <div
-              key={link.platform}
+              key={platformDef.platform}
               className="rounded-lg border border-dark-200 bg-dark p-4 flex flex-col gap-3"
             >
               <div className="flex items-center gap-3">
                 <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-dark-200 text-primary">
                   <Icon className="h-4 w-4" />
                 </div>
-                <span className="font-medium text-white">{link.platform}</span>
+                <span className="font-medium text-white">{platformDef.platform}</span>
               </div>
 
-              {editing === link.platform ? (
+              {editing === platformDef.platform ? (
                 <div className="flex gap-2">
                   <Input
-                    defaultValue={link.url}
+                    defaultValue={currentUrl}
                     className="flex-1 border-dark-200 bg-dark-100 text-white text-sm h-8"
-                    id={`url-${link.platform}`}
+                    id={`url-${platformDef.platform}`}
                     placeholder="https://..."
                   />
                   <Button
                     onClick={() => {
-                      const input = document.getElementById(`url-${link.platform}`) as HTMLInputElement;
-                      handleSave(link.platform, input.value);
+                      const input = document.getElementById(`url-${platformDef.platform}`) as HTMLInputElement;
+                      handleSave(platformDef.platform, input.value, platformDef.icon);
                     }}
                     className="bg-gradient-accent h-8 w-8 p-0"
                     size="icon"
@@ -1434,13 +1473,13 @@ function SocialLinksEditor() {
               ) : (
                 <div className="flex items-center justify-between gap-2">
                   <span
-                    className={`text-xs truncate flex-1 ${link.url ? 'text-muted-foreground' : 'text-dark-300 italic'}`}
-                    title={link.url}
+                    className={`text-xs truncate flex-1 ${currentUrl ? 'text-muted-foreground' : 'text-dark-300 italic'}`}
+                    title={currentUrl}
                   >
-                    {link.url || 'No link added'}
+                    {currentUrl || 'No link added'}
                   </span>
                   <button
-                    onClick={() => setEditing(link.platform)}
+                    onClick={() => setEditing(platformDef.platform)}
                     className="rounded-lg p-1.5 text-muted-foreground hover:bg-dark-200 hover:text-white transition-colors"
                   >
                     <Pencil className="h-3.5 w-3.5" />
