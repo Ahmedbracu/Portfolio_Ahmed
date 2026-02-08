@@ -1,6 +1,33 @@
 import { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowDown, Github, Linkedin, Facebook } from 'lucide-react';
+import {
+  ArrowDown,
+  Github,
+  Linkedin,
+  Facebook,
+  Twitter,
+  Instagram,
+  Youtube,
+  Twitch,
+  Globe,
+  Mail,
+  Video,
+  Ghost,
+  MessageCircle,
+  Gamepad2,
+  Phone,
+  Send,
+  BookOpen,
+  Music,
+  CloudLightning,
+  Layers,
+  Codepen,
+  Code2,
+  Image as ImageIcon,
+  Dribbble,
+  Pin,
+  Gitlab
+} from 'lucide-react';
 import { usePortfolio } from '@/context/PortfolioContext';
 import gsap from 'gsap';
 
@@ -8,6 +35,34 @@ export function Hero() {
   const { profile } = usePortfolio();
   const titleRef = useRef<HTMLHeadingElement>(null);
   const subtitleRef = useRef<HTMLParagraphElement>(null);
+
+  const iconMap: Record<string, React.ElementType> = {
+    github: Github,
+    linkedin: Linkedin,
+    facebook: Facebook,
+    twitter: Twitter,
+    instagram: Instagram,
+    youtube: Youtube,
+    twitch: Twitch,
+    globe: Globe,
+    mail: Mail,
+    video: Video,
+    ghost: Ghost,
+    'message-circle': MessageCircle,
+    'gamepad-2': Gamepad2,
+    phone: Phone,
+    send: Send,
+    'book-open': BookOpen,
+    music: Music,
+    'cloud-lightning': CloudLightning,
+    layers: Layers,
+    codepen: Codepen,
+    code: Code2,
+    image: ImageIcon,
+    dribbble: Dribbble,
+    pin: Pin,
+    gitlab: Gitlab,
+  };
 
   useEffect(() => {
     // Character animation for title
@@ -200,8 +255,7 @@ export function Hero() {
           className="mt-12 flex items-center justify-center gap-4"
         >
           {profile.socialLinks.map((link, index) => {
-            const Icon = link.icon === 'github' ? Github :
-              link.icon === 'linkedin' ? Linkedin : Facebook;
+            const Icon = iconMap[link.icon] || Mail;
             return (
               <motion.a
                 key={link.platform}
