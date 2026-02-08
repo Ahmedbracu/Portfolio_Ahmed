@@ -73,7 +73,25 @@ export function PortfolioProvider({ children }: { children: ReactNode }) {
 
   const [currentProfile, setCurrentProfile] = useState<Profile>(() => {
     const saved = localStorage.getItem('portfolio-profile');
-    return saved ? { ...defaultProfile, ...JSON.parse(saved) } : defaultProfile;
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        const merged = { ...defaultProfile, ...parsed };
+
+        // Sanitize socialLinks to remove nulls or invalid entries
+        if (Array.isArray(merged.socialLinks)) {
+          merged.socialLinks = merged.socialLinks.filter((l: any) => l && typeof l === 'object' && l.platform);
+        } else {
+          merged.socialLinks = defaultProfile.socialLinks || [];
+        }
+
+        return merged;
+      } catch (error) {
+        console.error('Error parsing saved profile:', error);
+        return defaultProfile;
+      }
+    }
+    return defaultProfile;
   });
 
   const [skills, setSkills] = useState<Skill[]>(() => {
