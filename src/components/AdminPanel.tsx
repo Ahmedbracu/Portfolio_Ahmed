@@ -23,6 +23,28 @@ import {
   ZoomIn,
   ZoomOut,
   Check,
+  Github,
+  Gitlab,
+  Layers,
+  Codepen,
+  Dribbble,
+  Pin,
+  Instagram,
+  Facebook,
+  Twitter,
+  Youtube,
+  Video,
+  Ghost,
+  MessageCircle,
+  Gamepad2,
+  Phone,
+  Send,
+  BookOpen,
+  Twitch,
+  Music,
+  CloudLightning,
+  Globe,
+  Mail,
 } from 'lucide-react';
 import { usePortfolio } from '@/context/PortfolioContext';
 import type { Skill, Experience, Project } from '@/types';
@@ -1342,9 +1364,31 @@ function SocialLinksEditor() {
   };
 
   const iconMap: Record<string, React.ElementType> = {
-    github: Briefcase,
+    github: Github,
     linkedin: Linkedin,
-    facebook: MapPin,
+    gitlab: Gitlab,
+    layers: Layers,
+    codepen: Codepen,
+    code: Code2,
+    image: ImageIcon,
+    dribbble: Dribbble,
+    pin: Pin,
+    instagram: Instagram,
+    facebook: Facebook,
+    twitter: Twitter,
+    youtube: Youtube,
+    video: Video,
+    ghost: Ghost,
+    'message-circle': MessageCircle,
+    'gamepad-2': Gamepad2,
+    phone: Phone,
+    send: Send,
+    'book-open': BookOpen,
+    twitch: Twitch,
+    music: Music,
+    'cloud-lightning': CloudLightning,
+    globe: Globe,
+    mail: Mail,
   };
 
   return (
@@ -1353,16 +1397,18 @@ function SocialLinksEditor() {
         <h3 className="font-display text-xl font-semibold">Edit Social Links</h3>
       </div>
 
-      <div className="space-y-4">
+      <div className="grid gap-4 sm:grid-cols-2">
         {profile.socialLinks.map((link) => {
           const Icon = iconMap[link.icon] || LinkIcon;
           return (
             <div
               key={link.platform}
-              className="rounded-lg border border-dark-200 bg-dark p-4"
+              className="rounded-lg border border-dark-200 bg-dark p-4 flex flex-col gap-3"
             >
-              <div className="flex items-center gap-3 mb-3">
-                <Icon className="h-5 w-5 text-primary" />
+              <div className="flex items-center gap-3">
+                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-dark-200 text-primary">
+                  <Icon className="h-4 w-4" />
+                </div>
                 <span className="font-medium text-white">{link.platform}</span>
               </div>
 
@@ -1370,29 +1416,34 @@ function SocialLinksEditor() {
                 <div className="flex gap-2">
                   <Input
                     defaultValue={link.url}
-                    className="flex-1 border-dark-200 bg-dark-100 text-white"
+                    className="flex-1 border-dark-200 bg-dark-100 text-white text-sm h-8"
                     id={`url-${link.platform}`}
+                    placeholder="https://..."
                   />
                   <Button
                     onClick={() => {
                       const input = document.getElementById(`url-${link.platform}`) as HTMLInputElement;
                       handleSave(link.platform, input.value);
                     }}
-                    className="bg-gradient-accent"
+                    className="bg-gradient-accent h-8 w-8 p-0"
+                    size="icon"
                   >
-                    <Save className="h-4 w-4" />
+                    <Save className="h-3.5 w-3.5" />
                   </Button>
                 </div>
               ) : (
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-muted-foreground truncate max-w-[200px] sm:max-w-[300px]">
-                    {link.url}
+                <div className="flex items-center justify-between gap-2">
+                  <span
+                    className={`text-xs truncate flex-1 ${link.url ? 'text-muted-foreground' : 'text-dark-300 italic'}`}
+                    title={link.url}
+                  >
+                    {link.url || 'No link added'}
                   </span>
                   <button
                     onClick={() => setEditing(link.platform)}
-                    className="rounded-lg p-2 text-muted-foreground hover:bg-dark-200 hover:text-white"
+                    className="rounded-lg p-1.5 text-muted-foreground hover:bg-dark-200 hover:text-white transition-colors"
                   >
-                    <Pencil className="h-4 w-4" />
+                    <Pencil className="h-3.5 w-3.5" />
                   </button>
                 </div>
               )}

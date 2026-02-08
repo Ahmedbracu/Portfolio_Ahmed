@@ -9,21 +9,39 @@ export const profile: Profile = {
   location: "Dhaka, Bangladesh",
   bio: "I am a passionate learner and multidisciplinary thinker with a strong foundation in both programming and graphic design. My journey blends creativity with logic, whether I'm writing code to solve complex problems or designing visuals that communicate powerful stories. As an aspiring researcher, I am deeply interested in exploring the intersection of technology, data, and human impact.",
   socialLinks: [
-    {
-      platform: "LinkedIn",
-      url: "https://linkedin.com/in/ahmed-abu-bakar-9a94b831b",
-      icon: "linkedin"
-    },
-    {
-      platform: "GitHub",
-      url: "https://github.com/Ahmedbracu",
-      icon: "github"
-    },
-    {
-      platform: "Facebook",
-      url: "https://facebook.com/share/1Gw2cbrRvt",
-      icon: "facebook"
-    }
+    // Tech
+    { platform: "GitHub", url: "https://github.com/Ahmedbracu", icon: "github" },
+    { platform: "LinkedIn", url: "https://linkedin.com/in/ahmed-abu-bakar-9a94b831b", icon: "linkedin" },
+    { platform: "GitLab", url: "", icon: "gitlab" },
+    { platform: "StackOverflow", url: "", icon: "layers" }, // Using layers as fallback or specific if available in lucide
+    { platform: "CodePen", url: "", icon: "codepen" },
+    { platform: "Dev.to", url: "", icon: "code" }, // Generic code icon
+
+    // Design
+    { platform: "Behance", url: "", icon: "image" }, // Lucide doesn't have Behance, using Image
+    { platform: "Dribbble", url: "", icon: "dribbble" },
+    { platform: "Pinterest", url: "", icon: "pin" }, // Lucide doesn't have Pinterest? Checking... actually it might not. using Pin.
+    { platform: "Instagram", url: "", icon: "instagram" },
+
+    // Social
+    { platform: "Facebook", url: "https://facebook.com/share/1Gw2cbrRvt", icon: "facebook" },
+    { platform: "Twitter", url: "", icon: "twitter" },
+    { platform: "YouTube", url: "", icon: "youtube" },
+    { platform: "TikTok", url: "", icon: "video" }, // Generic video
+    { platform: "Snapchat", url: "", icon: "ghost" }, // Ghost for snapchat
+    { platform: "Reddit", url: "", icon: "message-circle" }, // Generic
+    { platform: "Discord", url: "", icon: "gamepad-2" }, // Gamepad for discord
+    { platform: "WhatsApp", url: "", icon: "phone" },
+    { platform: "Telegram", url: "", icon: "send" },
+
+    // Content/Other
+    { platform: "Medium", url: "", icon: "book-open" },
+    { platform: "Twitch", url: "", icon: "twitch" },
+    { platform: "Spotify", url: "", icon: "music" },
+    { platform: "Soundcloud", url: "", icon: "cloud-lightning" },
+    { platform: "Vimeo", url: "", icon: "video" },
+    { platform: "Website", url: "", icon: "globe" },
+    { platform: "Email", url: "mailto:ahmedchad27@gmail.com", icon: "mail" }
   ]
 };
 
@@ -86,20 +104,20 @@ export const skills: Skill[] = [
   { name: "Python", level: 75, category: "programming", icon: "code" },
   { name: "C", level: 60, category: "programming", icon: "code" },
   { name: "HTML/CSS", level: 80, category: "programming", icon: "layout" },
-  
+
   // Concepts
   { name: "Data Structures", level: 80, category: "programming", icon: "database" },
   { name: "Algorithms", level: 75, category: "programming", icon: "cpu" },
   { name: "OOP", level: 85, category: "programming", icon: "box" },
   { name: "Git & GitHub", level: 70, category: "tools", icon: "git-branch" },
-  
+
   // Design
   { name: "Adobe Illustrator", level: 90, category: "design", icon: "pen-tool" },
   { name: "Adobe Photoshop", level: 85, category: "design", icon: "image" },
   { name: "Branding", level: 88, category: "design", icon: "palette" },
   { name: "Typography", level: 82, category: "design", icon: "type" },
   { name: "UI Mockups", level: 75, category: "design", icon: "layout" },
-  
+
   // Soft Skills
   { name: "Research", level: 85, category: "soft", icon: "search" },
   { name: "Leadership", level: 78, category: "soft", icon: "users" },

@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect, useCallback, type ReactNode } from 'react';
+import { toast } from 'sonner';
 import type { Project, Profile, Skill, Experience, SocialLink } from '@/types';
 import { profile as defaultProfile, defaultProjects, skills as defaultSkills, experiences as defaultExperiences, ADMIN_PASSWORD } from '@/data/profile';
 import {
@@ -186,16 +187,23 @@ export function PortfolioProvider({ children }: { children: ReactNode }) {
   const addProject = useCallback(async (project: Omit<Project, 'id' | 'createdAt'>) => {
     const newProject: Project = {
       ...project,
-      id: Date.now().toString(),
+      id: typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(),
       createdAt: new Date().toISOString(),
     };
 
     setProjects(prev => [newProject, ...prev]);
 
     if (isSupabaseConfigured) {
-      const saved = await addProjectToDb(project);
-      if (saved) {
-        setProjects(prev => prev.map(p => p.id === newProject.id ? saved : p));
+      try {
+        const saved = await addProjectToDb(project);
+        if (saved) {
+          setProjects(prev => prev.map(p => p.id === newProject.id ? saved : p));
+        } else {
+          toast.error('Failed to save project to database. Please check your connection or permissions.');
+        }
+      } catch (error) {
+        console.error('Error adding project:', error);
+        toast.error('An unexpected error occurred while saving the project.');
       }
     }
   }, []);
@@ -237,7 +245,10 @@ export function PortfolioProvider({ children }: { children: ReactNode }) {
     setCurrentProfile(prev => ({ ...prev, ...processedUpdates }));
 
     if (isSupabaseConfigured) {
-      await updateProfileInDb(processedUpdates);
+      const success = await updateProfileInDb(processedUpdates);
+      if (!success) {
+        toast.error('Failed to update profile in database.');
+      }
     }
   }, []);
 
