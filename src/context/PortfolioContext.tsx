@@ -73,7 +73,7 @@ export function PortfolioProvider({ children }: { children: ReactNode }) {
 
   const [currentProfile, setCurrentProfile] = useState<Profile>(() => {
     const saved = localStorage.getItem('portfolio-profile');
-    return saved ? JSON.parse(saved) : defaultProfile;
+    return saved ? { ...defaultProfile, ...JSON.parse(saved) } : defaultProfile;
   });
 
   const [skills, setSkills] = useState<Skill[]>(() => {

@@ -1436,7 +1436,7 @@ function SocialLinksEditor() {
       <div className="grid gap-4 sm:grid-cols-2">
         {ALL_SOCIAL_PLATFORMS.map((platformDef) => {
           const Icon = iconMap[platformDef.icon] || LinkIcon;
-          const existingLink = profile.socialLinks.find(l => l.platform === platformDef.platform);
+          const existingLink = (profile.socialLinks || []).find(l => l.platform === platformDef.platform);
           const currentUrl = existingLink?.url || '';
 
           return (
